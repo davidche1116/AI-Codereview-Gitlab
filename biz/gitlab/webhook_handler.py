@@ -84,7 +84,7 @@ class MergeRequestHandler:
         for attempt in range(max_retries):
             # 调用 GitLab API 获取 Merge Request 的 changes
             url = urljoin(f"{self.gitlab_url}/",
-                          f"api/v4/projects/{self.project_id}/merge_requests/{self.merge_request_iid}/changes")
+                          f"gitlab/api/v4/projects/{self.project_id}/merge_requests/{self.merge_request_iid}/changes")
             headers = {
                 'Private-Token': self.gitlab_token
             }
@@ -115,7 +115,7 @@ class MergeRequestHandler:
 
         # 调用 GitLab API 获取 Merge Request 的 commits
         url = urljoin(f"{self.gitlab_url}/",
-                      f"api/v4/projects/{self.project_id}/merge_requests/{self.merge_request_iid}/commits")
+                      f"gitlab/api/v4/projects/{self.project_id}/merge_requests/{self.merge_request_iid}/commits")
         headers = {
             'Private-Token': self.gitlab_token
         }
@@ -130,7 +130,7 @@ class MergeRequestHandler:
 
     def add_merge_request_notes(self, review_result):
         url = urljoin(f"{self.gitlab_url}/",
-                      f"api/v4/projects/{self.project_id}/merge_requests/{self.merge_request_iid}/notes")
+                      f"gitlab/api/v4/projects/{self.project_id}/merge_requests/{self.merge_request_iid}/notes")
         headers = {
             'Private-Token': self.gitlab_token,
             'Content-Type': 'application/json'
@@ -203,7 +203,7 @@ class PushHandler:
             return
 
         url = urljoin(f"{self.gitlab_url}/",
-                      f"api/v4/projects/{self.project_id}/repository/commits/{last_commit_id}/comments")
+                      f"gitlab/api/v4/projects/{self.project_id}/repository/commits/{last_commit_id}/comments")
         headers = {
             'Private-Token': self.gitlab_token,
             'Content-Type': 'application/json'
@@ -222,7 +222,7 @@ class PushHandler:
     def __repository_commits(self, ref_name: str = "", since: str = "", until: str = "", pre_page: int = 100,
                              page: int = 1):
         # 获取仓库提交信息
-        url = f"{urljoin(f'{self.gitlab_url}/', f'api/v4/projects/{self.project_id}/repository/commits')}?ref_name={ref_name}&since={since}&until={until}&per_page={pre_page}&page={page}"
+        url = f"{urljoin(f'{self.gitlab_url}/', f'gitlab/api/v4/projects/{self.project_id}/repository/commits')}?ref_name={ref_name}&since={since}&until={until}&per_page={pre_page}&page={page}"
         headers = {
             'Private-Token': self.gitlab_token
         }
@@ -245,7 +245,7 @@ class PushHandler:
 
     def repository_compare(self, before: str, after: str):
         # 比较两个提交之间的差异
-        url = f"{urljoin(f'{self.gitlab_url}/', f'api/v4/projects/{self.project_id}/repository/compare')}?from={before}&to={after}"
+        url = f"{urljoin(f'{self.gitlab_url}/', f'gitlab/api/v4/projects/{self.project_id}/repository/compare')}?from={before}&to={after}"
         headers = {
             'Private-Token': self.gitlab_token
         }
